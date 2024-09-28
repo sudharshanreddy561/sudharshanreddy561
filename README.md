@@ -1,4 +1,4 @@
-- 👋 Hi, I’m @sudharshanreddy561
+- 👋 Hi, I’m sudharshan reddy
 - 👀 I’m interested in data science
 - 🌱 I’m currently learning python language
 - 💞️ I’m looking to collaborate on tcs,google etc
