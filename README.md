@@ -1,6 +1,5 @@
 - 👋 Hi, I’m sudharshan reddy
 - 👀 I’m interested in data science
-- 🌱 I’m currently learning python language
 - 💞️ I’m looking to collaborate on tcs,google etc
 - 📫 How to reach me ...sudharshanreddy561@gmail.com
 - 😄 Pronouns: ...
