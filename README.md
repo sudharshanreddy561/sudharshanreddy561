@@ -1,11 +1,19 @@
-- 👋 Hi, I’m sudharshan reddy
-- 👀 I’m interested in data science
-- 💞️ I’m looking to collaborate on tcs,google etc
-- 📫 How to reach me ...sudharshanreddy561@gmail.com
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
+<!-- Typing Animation -->
+![Typing SVG](https://readme-typing-svg.herokuapp.com?size=30&color=36BCF7&lines=Hi+I'm+Sudharshan+Reddy;Data+Science+%26+Cloud+Enthusiast;Python+|+Java+|+AWS;Welcome+to+my+GitHub+Profile!)
 
-<!---
-sudharshanreddy561/sudharshanreddy561 is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
-You can click the Preview link to take a look at your changes.
---->
+# 👋 Hi, I'm Sudharshan Reddy  
+### Data Science & Cloud Enthusiast | Python • Java • AWS
+
+I am a Computer Science Engineering (Data Science) student passionate about  
+**Machine Learning, Data Analysis, Cloud Technologies, and building real-world solutions**.
+
+---
+
+## 🚀 Skills & Tools
+
+```text
+Python        ████████████████░░░░░  
+Java          █████████████░░░░░░░░  
+C Programming ████████████░░░░░░░░░  
+Machine Learn ██████████████░░░░░░  
+AWS Cloud     ███████████░░░░░░░░░░  
