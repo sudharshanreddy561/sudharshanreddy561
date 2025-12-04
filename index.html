@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Birthday Surprise — Animated (No Sound)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1:#ffb3b3;
+      --bg2:#ffd6cc;
+      --accent:#ff3b80;
+      --card:#ffffff22;
+      --glass: rgba(255,255,255,0.08);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,Arial;
+      background:linear-gradient(135deg,var(--bg1),var(--bg2));
+      min-height:100vh;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      color:#0b1b26;
+      overflow-y:auto;
+    }
+
+    .page{width:100%;max-width:1200px;padding:28px 24px 80px}
+
+    /* subtle animated background gradient */
+    .bg-anim{position:fixed;inset:0;z-index:0;pointer-events:none;background:linear-gradient(60deg,rgba(255,255,255,0.04),transparent);mix-blend-mode:overlay;animation:moveBg 12s linear infinite}
+    @keyframes moveBg{0%{transform:translateX(0)}50%{transform:translateX(6%)}100%{transform:translateX(0)}}
+
+    /* header card */
+    .enter-card{
+      position:relative;
+      z-index:5;
+      background:linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.03));
+      border-radius:16px;padding:22px;box-shadow:0 18px 50px rgba(2,6,23,0.12);
+      backdrop-filter: blur(6px); overflow:hidden;
+      margin-bottom:18px;
+    }
+    .enter-top{display:flex;align-items:center;gap:14px}
+    .logo{width:70px;height:70px;border-radius:14px;background:linear-gradient(135deg,#fff,#ffdfe6);display:flex;align-items:center;justify-content:center;font-size:32px}
+    h1{margin:0;font-size:26px;letter-spacing:.2px}
+    .heading-shimmer{
+      display:inline-block;
+      background:linear-gradient(90deg,#fff3 0%, #fff 30%, #fff3 60%);
+      background-size:200% 100%;
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      animation:shimmer 3s linear infinite;
+    }
+    @keyframes shimmer{0%{background-position:0%}100%{background-position:200%}}
+
+    .lead{color:rgba(2,6,23,0.5);margin-top:6px}
+
+    form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+    input{padding:12px;border-radius:10px;border:0;background:var(--card);font-size:15px}
+    .cta{grid-column:1 / -1;padding:12px;border-radius:14px;border:0;background:linear-gradient(90deg,var(--accent),#ff8ab0);color:#fff;font-weight:700;cursor:pointer;transition:transform .18s}
+    .cta:hover{transform:translateY(-5px);box-shadow:0 12px 30px rgba(255,59,128,0.12)}
+
+    /* surprise area */
+    .surprise{display:none;position:relative;z-index:5;margin-top:10px;padding:18px;border-radius:14px;background:linear-gradient(0deg,#ffffff06,#ffffff02)}
+    .topline{display:flex;align-items:center;justify-content:space-between}
+    .title-wrap{display:flex;flex-direction:column}
+    .small-muted{color:rgba(2,6,23,0.5);font-size:14px}
+
+    /* quote styling */
+    .quotes{margin-top:10px}
+    .quote{font-size:18px;color:#65002a;margin:6px 0;opacity:0;transform:translateY(8px);animation:fadeIn 1s forwards}
+    .quote.q2{animation-delay:.8s}
+    @keyframes fadeIn{to{opacity:1;transform:none}}
+
+    /* gallery with nice staggered card entrances */
+    .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px;align-items:start}
+    .card{
+      border-radius:14px;overflow:hidden;background:linear-gradient(180deg,#ffdfe3,#ffd8d8);min-height:220px;
+      box-shadow:0 18px 40px rgba(10,10,20,0.08);position:relative;
+      transform:translateY(26px) scale(.98);opacity:0;
+      transition:transform .5s cubic-bezier(.2,.9,.2,1),filter .25s,box-shadow .25s;
+    }
+    .card.loaded{transform:none;opacity:1}
+    .card img{width:100%;height:220px;object-fit:cover;display:block;transition:transform .6s,filter .4s}
+    .card:hover{transform:translateY(-6px) scale(1.02);box-shadow:0 30px 60px rgba(10,10,20,0.14)}
+    .card:hover img{transform:scale(1.07) rotate(-1deg);filter:brightness(1.02) saturate(1.05)}
+
+    /* small labels below each card */
+    .label{padding:10px 12px;font-weight:600;color:rgba(2,6,23,0.6)}
+
+    /* overlay shimmer / lens when clicked */
+    .lens{position:absolute;border-radius:50%;pointer-events:none;mix-blend-mode:screen;opacity:.5;filter:blur(14px)}
+
+    /* heart layer covering whole surprise area */
+    #heart-layer{position:absolute;inset:0;pointer-events:none;z-index:60}
+
+    /* floating confetti canvas is above bg but below content */
+    #confetti-canvas{position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:20}
+
+    /* floating decorative orbs (soft shapes) */
+    .orb{position:absolute;border-radius:50%;opacity:.12;pointer-events:none;filter:blur(10px)}
+    .orb.o1{width:200px;height:200px;right:6%;top:18%;background:linear-gradient(180deg,#ffd6e3,#ff8ab0);animation:floaty 8s ease-in-out infinite}
+    .orb.o2{width:160px;height:160px;left:4%;top:40%;background:linear-gradient(180deg,#ffe9b3,#ffd36b);animation:floaty 10s ease-in-out infinite}
+    @keyframes floaty{0%{transform:translateY(0)}50%{transform:translateY(-18px)}100%{transform:translateY(0)}}
+
+    /* replay row */
+    .controls{display:flex;gap:12px;justify-content:center;margin-top:18px}
+
+    /* responsive */
+    @media (max-width:920px){.gallery{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:600px){.gallery{grid-template-columns:1fr} .card img{height:200px}}
+  </style>
+</head>
+<body>
+  <div class="bg-anim" aria-hidden="true"></div>
+  <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
+  <div class="page">
+    <!-- ENTRY CARD -->
+    <section class="enter-card" id="enterCard">
+      <div class="enter-top">
+        <div class="logo">🎉</div>
+        <div>
+          <h1><span class="heading-shimmer">Happy Birthday Surprise</span></h1>
+          <div class="lead">Enter the name and birthday — the surprise will reveal an animated gallery.</div>
+        </div>
+      </div>
+
+      <form id="entryForm" onsubmit="openSurprise(event)">
+        <input id="name" type="text" placeholder="Name (who's it for?)" required />
+        <input id="dob" type="date" required />
+        <button class="cta" type="submit">Reveal the Surprise 🎁</button>
+      </form>
+
+      <div style="margin-top:10px;font-size:13px;color:rgba(2,6,23,0.55)">
+        Tip: Keep your images in <code>images/</code> folder named <code>photo1.jpg</code> … <code>photo8.jpg</code>.
+      </div>
+    </section>
+
+    <!-- SURPRISE -->
+    <section class="surprise" id="surpriseSection" aria-hidden="true">
+      <div class="topline">
+        <div class="title-wrap">
+          <div style="display:flex;align-items:baseline;gap:6px">
+            <div style="font-size:22px">🎂</div>
+            <div>
+              <div style="font-size:20px"> <strong id="wishText">Happy Birthday,</strong> <span id="wishName" style="font-weight:800">Friend</span>!</div>
+              <div class="small-muted">Click images for hearts — enjoy the animations.</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:10px;align-items:center">
+          <button class="cta" onclick="replayAll()">Replay animations</button>
+          <button class="cta" style="background:linear-gradient(90deg,#46b6ff,#6de3ff)" onclick="downloadImages()">Download images</button>
+        </div>
+      </div>
+
+      <!-- quotes -->
+      <div class="quotes" id="quotesBlock" aria-hidden="true">
+        <p class="quote q1">“You make my life brighter just by being in it.”</p>
+        <p class="quote q2">“On your special day, I just want you to know how precious you are to me.”</p>
+      </div>
+
+      <!-- soft orbs -->
+      <div class="orb o1" aria-hidden="true"></div>
+      <div class="orb o2" aria-hidden="true"></div>
+
+      <!-- hearts layer -->
+      <div id="heart-layer" aria-hidden="true"></div>
+
+      <!-- GALLERY -->
+      <div class="gallery" id="gallery">
+        <!-- each card will animate in by JS to create stagger -->
+        <div class="card" data-index="0"><img src="images/photo1.jpg" alt="photo1" onerror="imgFallback(this)"><div class="label">photo1</div></div>
+        <div class="card" data-index="1"><img src="images/photo2.jpg" alt="photo2" onerror="imgFallback(this)"><div class="label">photo2</div></div>
+        <div class="card" data-index="2"><img src="images/photo3.jpg" alt="photo3" onerror="imgFallback(this)"><div class="label">photo3</div></div>
+
+        <div class="card" data-index="3"><img src="images/photo4.jpg" alt="photo4" onerror="imgFallback(this)"><div class="label">photo4</div></div>
+        <div class="card" data-index="4"><img src="images/photo5.jpg" alt="photo5" onerror="imgFallback(this)"><div class="label">photo5</div></div>
+        <div class="card" data-index="5"><img src="images/photo6.jpg" alt="photo6" onerror="imgFallback(this)"><div class="label">photo6</div></div>
+
+        <div class="card" data-index="6"><img src="images/photo7.jpg" alt="photo7" onerror="imgFallback(this)"><div class="label">photo7</div></div>
+        <div class="card" data-index="7"><img src="images/photo8.jpg" alt="photo8" onerror="imgFallback(this)"><div class="label">photo8</div></div>
+        <div class="card" data-index="8"><img src="" alt="extra" onerror="imgFallback(this)"><div class="label">surprise</div></div>
+      </div>
+
+    </section>
+  </div>
+
+  <!-- confetti lib (used for bursts) -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    /* ---------- Utility & setup ---------- */
+    const confettiCanvas = document.getElementById('confetti-canvas');
+    const confettiInstance = confetti.create(confettiCanvas, { resize: true, useWorker: true });
+    const gallery = document.getElementById('gallery');
+    const cards = Array.from(document.querySelectorAll('.card'));
+    const heartLayer = document.getElementById('heart-layer');
+
+    function burst(x=0.5, y=0.5, opts={}) {
+      const p = Object.assign({ particleCount: 70, spread: 160, startVelocity: 40 }, opts);
+      confettiInstance(Object.assign({}, p, { origin: { x, y } }));
+    }
+
+    // fireworks-like layered shots
+    function fireworks(x=0.5, y=0.3){
+      for(let i=0;i<5;i++){
+        setTimeout(()=> {
+          confettiInstance({ particleCount: 40, spread: 120, origin:{x: x + (Math.random()-0.5)*0.12, y: y + (Math.random()-0.5)*0.12}, scalar: 1 + Math.random()*0.6 });
+        }, i*220);
+      }
+    }
+
+    /* ---------- Entry / Reveal ---------- */
+    function openSurprise(e){
+      e.preventDefault();
+      const nameRaw = document.getElementById('name').value || 'Friend';
+      const name = nameRaw.trim().replace(/^["'`]|["'`]$/g,'');
+      document.getElementById('wishName').textContent = name;
+      document.getElementById('enterCard').style.display = 'none';
+      const sec = document.getElementById('surpriseSection');
+      sec.style.display = 'block';
+      sec.setAttribute('aria-hidden','false');
+      document.getElementById('quotesBlock').setAttribute('aria-hidden','false');
+
+      // staggered card reveal
+      cards.forEach((card, i)=>{
+        setTimeout(()=>{ card.classList.add('loaded'); animateCardEntrance(card, i); }, i*140 + 120);
+      });
+
+      // initial confetti + fireworks
+      setTimeout(()=>{ burst(0.5, 0.35); fireworks(0.5, 0.35); }, 300);
+    }
+
+    function animateCardEntrance(card, i){
+      // small pop + tilt
+      card.style.transition = 'transform .6s cubic-bezier(.2,.9,.2,1), opacity .5s';
+      card.style.transform = 'translateY(0) scale(1)';
+      card.style.opacity = '1';
+      // add a small lens effect on random card
+      if(Math.random() < 0.24){
+        const lens = document.createElement('div');
+        lens.className = 'lens';
+        const size = 120 + Math.floor(Math.random()*160);
+        lens.style.width = size + 'px';
+        lens.style.height = size + 'px';
+        lens.style.left = (Math.random()*70) + '%';
+        lens.style.top = (Math.random()*60) + '%';
+        lens.style.background = `radial-gradient(circle at 40% 30%, rgba(255,255,255,0.35), rgba(255,255,255,0.05))`;
+        lens.style.opacity = '0.6';
+        card.appendChild(lens);
+        setTimeout(()=> lens.style.opacity = '0', 900);
+        setTimeout(()=> lens.remove(), 1400);
+      }
+    }
+
+    /* ---------- Hearts on click (fixed coords) ---------- */
+    gallery.addEventListener('click', ev => {
+      if(ev.target.tagName !== 'IMG') return;
+      const imgRect = ev.target.getBoundingClientRect();
+      // spawn hearts in the image area
+      for(let i=0;i<8;i++){
+        const x = imgRect.left + Math.random() * imgRect.width;
+        const y = imgRect.top + Math.random() * imgRect.height;
+        spawnHeartAtViewportCoords(x, y, 18 + Math.random()*36);
+      }
+      // mini burst near click
+      const normX = (ev.clientX) / window.innerWidth;
+      const normY = (ev.clientY) / window.innerHeight;
+      confettiInstance({ particleCount: 20, spread: 60, origin:{x: normX, y: normY}, scalar: 0.9 });
+    });
+
+    function spawnHeartAtViewportCoords(pageX, pageY, size=36){
+      const containerRect = heartLayer.getBoundingClientRect();
+      const left = pageX - containerRect.left - (size/2);
+      const top = pageY - containerRect.top - (size/2);
+
+      const el = document.createElement('div');
+      el.className = 'heart';
+      el.style.width = size + 'px';
+      el.style.height = size + 'px';
+      el.style.position = 'absolute';
+      el.style.left = Math.round(left) + 'px';
+      el.style.top  = Math.round(top) + 'px';
+      el.style.opacity = '0';
+      el.style.transform = `translateY(0) scale(${0.7 + Math.random()*0.6}) rotate(${(Math.random()-0.5)*60}deg)`;
+      const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 29'><path fill='%23ff2f66' d='M23.6 0C20.9 0 18.5 1.6 16.7 3.8 14.9 1.6 12.5 0 9.8 0 4.4 0 .2 4.1.2 9.6c0 7.1 9.3 12.7 15.5 18.3.7.6 1.8.6 2.5 0 6.2-5.6 15.5-11.3 15.5-18.3C31.8 4.1 27.4 0 23.6 0z'/></svg>`;
+      el.style.backgroundImage = `url('data:image/svg+xml;utf8,${encodeURIComponent(svg)}')`;
+      heartLayer.appendChild(el);
+
+      requestAnimationFrame(()=>{
+        el.style.transition = 'transform 1.2s cubic-bezier(.2,.9,.2,1), opacity 1.05s linear';
+        el.style.opacity = '1';
+        const driftX = (Math.random()-0.5) * 140;
+        el.style.transform = `translate(${driftX}px, -140px) rotate(${(Math.random()-0.5)*60}deg) scale(${0.9})`;
+      });
+
+      setTimeout(()=>{ try{ el.remove(); confettiInstance({ particleCount: 8, spread: 40, origin: { x: (pageX / window.innerWidth), y: (pageY / window.innerHeight) } }); } catch(e){} }, 1250);
+    }
+
+    /* ---------- fallback if image missing ---------- */
+    function imgFallback(img){
+      img.onerror = null;
+      img.src = '';
+      img.style.background = 'linear-gradient(180deg,#ffd7db,#ffc7c7)';
+      img.style.height = '220px';
+      const label = document.createElement('div');
+      label.className = 'label';
+      label.textContent = img.alt || 'missing';
+      if(img.parentNode) img.parentNode.appendChild(label);
+    }
+
+    /* ---------- controls ---------- */
+    function replayAll(){
+      // replay fireworks & small pop on each card
+      cards.forEach((card,i) => {
+        card.classList.remove('loaded');
+        setTimeout(()=>{ card.classList.add('loaded'); animateCardEntrance(card, i); }, i*80);
+      });
+      setTimeout(()=>{ burst(0.5, 0.4); fireworks(0.5, 0.4); }, 350);
+    }
+
+    function downloadImages(){
+      const imgs = Array.from(document.querySelectorAll('.gallery img'));
+      imgs.forEach((img,i)=>{
+        if(!img.src) return;
+        const link = document.createElement('a');
+        link.href = img.src;
+        link.download = 'photo-'+(i+1)+'.jpg';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      });
+    }
+
+    /* ---------- small auto-behavior to show cards if images exist ---------- */
+    // ensure index.html is sibling of images/
+    window.addEventListener('load', ()=>{
+      // quick visibility: if surprise section already visible (rare), animate
+      // otherwise do nothing until user reveals.
+      // Preload success check: mark card as loaded if its image loads quickly
+      cards.forEach((card, i) => {
+        const img = card.querySelector('img');
+        if(img && img.complete && img.naturalWidth>50){
+          // small early reveal animation (but only if surprise shown)
+          setTimeout(()=> {
+            card.classList.add('loaded');
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0) scale(1)';
+          }, 80 + i*60);
+        }
+      });
+    });
+
+    /* ---------- helpful dev debug: show console message if images missing ---------- */
+    window.addEventListener('load', ()=>{
+      const imgs = Array.from(document.querySelectorAll('.gallery img'));
+      imgs.forEach((img)=>{
+        if(!img.src || img.src.endsWith('/')) {
+          console.warn('Empty image src detected for', img);
+        }
+      });
+    });
+
+    /* ---------- keyboard shortcut: R to replay ---------- */
+    document.addEventListener('keydown', (e)=>{ if(e.key.toLowerCase() === 'r'){ replayAll(); } });
+
+  </script>
+</body>
+</html>
