@@ -13,7 +13,7 @@
 - 🔥 Passionate about **Machine Learning, Web Development & Cloud Engineering**  
 - 🧠 Currently learning **Advanced ML, AWS, Java Backend**  
 - 🚀 Aspiring **Cloud & ML Engineer**  
-- 💬 I love solving real-world problems with code  
+- 💬 I enjoy building real-world projects  
 - 📩 Email: **sudharshanreddy561@gmail.com**  
 - 🔗 LinkedIn: [Sudharshan Reddy](https://www.linkedin.com/in/sudharshan-reddy-593a92326)
 
@@ -48,15 +48,15 @@
 ## 🚀 Featured Projects
 
 ### 🔍 **Machine Learning Model**
-- End-to-end predictive model with preprocessing, training & evaluation  
+- End-to-end predictive model: preprocessing, training, evaluation  
 - **Tech:** Python, Pandas, Scikit-learn  
 
 ### ☁️ **AWS Data Pipeline**
-- Automated ETL flow using AWS services  
+- Automated ETL workflow using AWS  
 - **Tech:** AWS S3, Lambda/Glue  
 
 ### 📊 **Data Analysis Portfolio**
-- Data cleaning, visualization & insights  
+- Data visualization & insights  
 - **Tech:** Pandas, Matplotlib, Seaborn  
 
 ---
@@ -80,17 +80,18 @@ Rajeev Gandhi Memorial College of Engineering & Technology, Nandyal
 ## 📊 GitHub Stats
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=SUDHARSHANREDDY&show_icons=true&theme=tokyonight" height="150"/>
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=SUDHARSHANREDDY&layout=compact&theme=tokyonight" height="150"/>
+  <img alt="GitHub Stats" src="https://github-readme-stats.vercel.app/api?username=sudharshanreddy561&show_icons=true&count_private=true&theme=tokyonight" height="150" />
+
+  <img alt="Top Languages" src="https://github-readme-stats.vercel.app/api/top-langs/?username=sudharshanreddy561&layout=compact&theme=tokyonight" height="150" />
 </p>
 
 <p align="center">
-  <img src="https://streak-stats.demolab.com?user=SUDHARSHANREDDY&theme=tokyonight" height="170" />
+  <img alt="GitHub Streak" src="https://streak-stats.demolab.com?user=sudharshanreddy561&theme=tokyonight" height="170" />
 </p>
 
 ---
 
-## 🐍 Contribution Snake Animation
+## 🐍 Contribution Snake
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/Platane/snk/output/github-contribution-grid-snake.svg" />
@@ -104,7 +105,7 @@ Rajeev Gandhi Memorial College of Engineering & Technology, Nandyal
   <a href="https://www.linkedin.com/in/sudharshan-reddy-593a92326">
     <img src="https://img.shields.io/badge/LINKEDIN-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"/>
   </a>
-  <a href="https://github.com/SUDHARSHANREDDY">
+  <a href="https://github.com/sudharshanreddy561">
     <img src="https://img.shields.io/badge/GITHUB-000000?style=for-the-badge&logo=github&logoColor=white"/>
   </a>
 </p>
